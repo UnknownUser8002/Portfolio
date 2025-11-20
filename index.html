@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daemons Exploiter's Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================
+   BASE STYLE (Apple minimal)
+================================================ */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+    font-family:"Inter",sans-serif;
+    background:#ffffff;
+    color:#111;
+    transition:0.4s ease-in-out;
+    overflow-x:hidden;
+}
+
+/* NAVBAR */
+nav{
+    width:100%;padding:20px 40px;
+    position:fixed;top:0;left:0;
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid rgba(0,0,0,0.08);
+    display:flex;justify-content:space-between;
+    align-items:center;z-index:1000;
+}
+nav h3{font-weight:600;}
+
+/* HERO */
+.hero{
+    height:100vh;display:flex;flex-direction:column;
+    justify-content:center;align-items:center;text-align:center;
+}
+.hero h1{
+    font-size:64px;font-weight:600;
+}
+.hero p{
+    font-size:22px;margin-top:10px;color:#444;
+    opacity:0.8;
+}
+
+/* PROJECT SECTION */
+.section{
+    padding:140px 40px;
+}
+.section h2{
+    font-size:42px;text-align:center;margin-bottom:60px;
+}
+.projects{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:40px;
+}
+.card{
+    border-radius:20px;padding:40px;
+    background:#f5f5f7;
+    transition:0.3s;
+    border:1px solid rgba(0,0,0,0.06);
+}
+.card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 20px 40px rgba(0,0,0,0.06);
+}
+
+/* ============================================
+   DARK MODE FUTURISTICA
+================================================ */
+.dark{
+    background:#0f0f11;
+    color:#f2f2f2;
+}
+.dark nav{
+    border-bottom:1px solid rgba(255,255,255,0.1);
+}
+.dark .card{
+    background:#1a1a1d;
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+}
+.dark .hero p{color:#c5c5c5;}
+.dark .section h2{color:#fff;}
+
+/* ============================================
+   HACKER MODE (NEON GREEN + CRT)
+================================================ */
+.hacker{
+    background:#000 !important;
+    color:#00ff9d !important;
+}
+.hacker nav{
+    border-bottom:1px solid #00ff9d !important;
+}
+.hacker .card{
+    background:rgba(0,255,150,0.05) !important;
+    border:1px solid #00ff9d !important;
+    box-shadow:0 0 25px rgba(0,255,150,0.25) !important;
+}
+
+/* SCANLINES CRT */
+.hacker::before{
+    content:"";
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    pointer-events:none;
+    background:repeating-linear-gradient(
+        to bottom,
+        rgba(0,255,100,0.05) 0px,
+        rgba(0,255,100,0.05) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    z-index:900;
+    animation:flicker 0.15s infinite;
+}
+@keyframes flicker{
+    0%{opacity:0.2;}
+    50%{opacity:0.35;}
+    100%{opacity:0.25;}
+}
+
+/* MATRIX RAIN CANVAS */
+#matrixCanvas{
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    pointer-events:none;
+    opacity:0; /* visible only in hacker mode */
+    transition:0.6s;
+    z-index:800;
+}
+.hacker #matrixCanvas{
+    opacity:0.25;
+}
+
+/* TERMINAL */
+.terminal{
+    display:none;
+    margin:120px auto;
+    width:90%;max-width:900px;
+    background:black;border:1px solid #00ff9d;
+    padding:20px;border-radius:12px;color:#00ff9d;
+    font-family:monospace;font-size:16px;
+}
+.hacker .terminal{display:block;}
+
+/* TERMINAL SCAN ANIMATION */
+#scanOverlay{
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,255,100,0.15);
+    box-shadow:0 0 20px #00ff9d;
+    opacity:0;
+    pointer-events:none;
+    z-index:1500;
+}
+#breachMsg{
+    position:fixed;
+    top:40%;
+    width:100%;
+    text-align:center;
+    font-size:38px;
+    font-family:monospace;
+    color:#00ff9d;
+    opacity:0;
+    z-index:1600;
+    pointer-events:none;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- MATRIX CANVAS -->
+<canvas id="matrixCanvas"></canvas>
+
+<!-- SCAN OVERLAY -->
+<div id="scanOverlay"></div>
+<div id="breachMsg">SYSTEM BREACH DETECTED</div>
+
+<nav>
+    <h3>Daemons Exploiter's Portfolio</h3>
+</nav>
+
+<section class="hero">
+    <h1>Daemons Exploiter</h1>
+    <p id="typing"></p>
+</section>
+
+<section class="section">
+    <h2>Progetti</h2>
+    <div class="projects">
+        <div class="card">
+            <h3>Web App Minimal</h3>
+            <p>Interfaccia fluida in stile Apple.</p>
+        </div>
+        <div class="card">
+            <h3>Python Automation</h3>
+            <p>Script avanzati e automazioni sofisticate.</p>
+        </div>
+        <div class="card">
+            <h3>Cyber Tool</h3>
+            <p>Strumenti orientati alla sicurezza.</p>
+        </div>
+    </div>
+</section>
+
+<div class="terminal">
+<pre id="term">
+> Initializing hackermode core…
+</pre>
+</div>
+
+<script>
+/* ============================
+   Typing Effect
+================================*/
+const tagline = "Cybersecurity • Automation • Web Engineering";
+let i=0;
+setInterval(()=>{
+    document.getElementById("typing").textContent = tagline.slice(0,i);
+    i = (i < tagline.length) ? i+1 : 0;
+},120);
+
+/* ============================
+   DARK MODE with key “D”
+================================*/
+document.addEventListener("keydown",(e)=>{
+    if(e.key.toLowerCase()==="d"){
+        document.body.classList.toggle("dark");
+    }
+});
+
+/* ============================
+   HACKER MODE SECRET SEQUENCE
+================================*/
+let buffer="";
+const secret="hacker";
+
+function activateHackerMode(){
+    document.body.classList.add("hacker");
+    terminalScan();
+}
+
+document.addEventListener("keydown",(e)=>{
+    buffer += e.key.toLowerCase();
+    if(buffer.endsWith(secret)){
+        activateHackerMode();
+        buffer="";
+    }
+    if(buffer.length>10) buffer="";
+});
+
+/* ============================
+   TERMINAL LINES
+================================*/
+const lines=[
+"Loading neural systems...",
+"Decrypting shell...",
+"Root access: GRANTED",
+"Entering cyber interface...",
+"Welcome, operator."
+];
+let t=0;
+setInterval(()=>{
+    let out=document.getElementById("term");
+    if(t < lines.length && document.body.classList.contains("hacker")){
+        out.textContent += "\n> " + lines[t];
+        t++;
+    }
+},1500);
+
+/* ============================
+   TERMINAL SCAN EFFECT
+================================*/
+function terminalScan(){
+    const scan = document.getElementById("scanOverlay");
+    const msg = document.getElementById("breachMsg");
+
+    scan.style.transition="0s";
+    scan.style.opacity=1;
+
+    msg.style.opacity=1;
+
+    setTimeout(()=>{
+        scan.style.transition="1s";
+        scan.style.transform="translateY(100%)";
+    },50);
+
+    setTimeout(()=>{
+        scan.style.opacity=0;
+        msg.style.opacity=0;
+        scan.style.transform="translateY(0)";
+    },800);
+}
+
+/* ============================
+   MATRIX RAIN
+================================*/
+const canvas = document.getElementById("matrixCanvas");
+const ctx = canvas.getContext("2d");
+
+function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resize();
+window.onresize = resize;
+
+const chars = "01";
+const drops = [];
+for(let i=0;i<canvas.width/10;i++){
+    drops[i] = Math.random()*canvas.height;
+}
+
+function drawMatrix(){
+    if(!document.body.classList.contains("hacker")) return;
+
+    ctx.fillStyle="rgba(0,0,0,0.08)";
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    ctx.fillStyle="#00ff9d";
+    ctx.font="14px monospace";
+
+    for(let i=0;i<drops.length;i++){
+        const text = chars[Math.floor(Math.random()*chars.length)];
+        ctx.fillText(text, i*10, drops[i]*10);
+
+        if(drops[i]*10 > canvas.height && Math.random()>0.975){
+            drops[i]=0;
+        }
+        drops[i]++;
+    }
+}
+setInterval(drawMatrix,50);
+</script>
+
+</body>
+</html>
