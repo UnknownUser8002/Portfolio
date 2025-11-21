@@ -174,6 +174,23 @@ nav h3 { font-weight: 600; }
     z-index:1600;
     pointer-events:none;
 }
+
+
+
+/* Footer minimal nero / bianco in dark mode */
+footer {
+  background: #000;
+  color: #fff;
+  padding: 50px 20px;
+  text-align: center;
+  margin-top: 120px;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+}
+.dark footer {
+  background: #fff;
+  color: #000;
+}
 </style>
 </head>
 <body>
@@ -342,5 +359,10 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll(".apple-fade").forEach((el) => observer.observe(el));
 </script>
 
+
+
+<footer>
+  © 2025 Daemons Exploiter — Tutti i diritti riservati
+</footer>
 </body>
 </html>
